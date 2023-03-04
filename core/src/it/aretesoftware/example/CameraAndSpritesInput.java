@@ -25,16 +25,16 @@ public class CameraAndSpritesInput {
 
     private void HandleEntities() {
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            MoveEntities(5f, 0);
+            MoveEntities(10f, 0);
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            MoveEntities(-5f, 0);
+            MoveEntities(-10f, 0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            MoveEntities(0, +5f);
+            MoveEntities(0, +10f);
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            MoveEntities(0, -5f);
+            MoveEntities(0, -10f);
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
@@ -43,6 +43,8 @@ public class CameraAndSpritesInput {
     }
 
     private void MoveEntities(float x, float y) {
+        x *= example.spritesMovementSpeed;
+        y *= example.spritesMovementSpeed;
         Array<SpriteEntity> entities  = example.sprites;
         for (SpriteEntity entity : entities) {
             Rectangle entityBounds = entity.GetBounds();
@@ -87,13 +89,13 @@ public class CameraAndSpritesInput {
 
     private void MoveCamera(float xOffset, float yOffset) {
         OrthographicCamera camera = (OrthographicCamera) example.viewport.getCamera();
-        camera.position.x += xOffset;
-        camera.position.y += yOffset;
+        camera.position.x += (xOffset * example.cameraMovementSpeed);
+        camera.position.y += (yOffset * example.cameraMovementSpeed);
     }
 
     private void ZoomCamera(float zoomOffset) {
         OrthographicCamera camera = (OrthographicCamera) example.viewport.getCamera();
-        camera.zoom += zoomOffset;
+        camera.zoom += (zoomOffset * example.cameraZoomSpeed);
     }
 
 }

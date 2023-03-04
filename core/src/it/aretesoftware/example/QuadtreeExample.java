@@ -15,9 +15,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.time.Instant;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Random;
 
 import it.aretesoftware.quadtree.QuadTreeItem;
@@ -32,6 +29,7 @@ public class QuadtreeExample extends ApplicationAdapter {
 	Viewport viewport;
 	QuadTreeRoot<SpriteEntity> root;
 	Array<SpriteEntity> sprites;
+	int cameraZoomSpeed, cameraMovementSpeed, spritesMovementSpeed;
 
 	CameraAndSpritesInput cameraAndSpritesInput;
 	UserInterface userInterface;
@@ -54,6 +52,10 @@ public class QuadtreeExample extends ApplicationAdapter {
 
 		spritesBounds = new Rectangle(10000, 10000, 40000, 40000);
 		CreateEntities(1000);
+
+		cameraZoomSpeed = 1;
+		cameraMovementSpeed = 1;
+		spritesMovementSpeed = 1;
 
 		cameraAndSpritesInput = new CameraAndSpritesInput(this);
 		userInterface = new UserInterface(this);

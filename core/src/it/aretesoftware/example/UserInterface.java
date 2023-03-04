@@ -2,6 +2,7 @@ package it.aretesoftware.example;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -42,6 +43,7 @@ public class UserInterface {
         CreateInfoTable(skin);
         CreateSpritesAndQuadTreeControlsTable(skin);
         CreateBindingsTable(skin);
+        CreateSpritesAndCameraControlsTable(skin);
     }
 
     private void CreateInfoTable(Skin skin) {
@@ -73,11 +75,8 @@ public class UserInterface {
         spritesCountTextField.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
-                if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
-                    if (c != 10) return;
-                }
-                else if (Gdx.app.getType() == Application.ApplicationType.WebGL) {
-                    if (c != 13) return;
+                if (!IsNewLine(c)) {
+                    return;
                 }
                 String text = textField.getText();
                 int newSpritesCount = Integer.parseInt(text);
@@ -98,11 +97,8 @@ public class UserInterface {
         maxLevelTextField.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
-                if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
-                    if (c != 10) return;
-                }
-                else if (Gdx.app.getType() == Application.ApplicationType.WebGL) {
-                    if (c != 13) return;
+                if (!IsNewLine(c)) {
+                    return;
                 }
                 String text = textField.getText();
                 int newMaxLevel = Integer.parseInt(text);
@@ -118,17 +114,13 @@ public class UserInterface {
                 }
             }
         });
-        //
         maxItemsPerNodeTextField = new TextField(String.valueOf(example.root.GetMaxItemsPerNode()), skin);
         maxItemsPerNodeTextField.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
         maxItemsPerNodeTextField.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
-                if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
-                    if (c != 10) return;
-                }
-                else if (Gdx.app.getType() == Application.ApplicationType.WebGL) {
-                    if (c != 13) return;
+                if (!IsNewLine(c)) {
+                    return;
                 }
                 String text = textField.getText();
                 int newMaxItemsPerNode = Integer.parseInt(text);
@@ -144,7 +136,6 @@ public class UserInterface {
                 }
             }
         });
-        //
         disableQuadTreeCheckBox = new CheckBox(" Disable QuadTree", skin);
         //
         HorizontalGroup spritesCount = new HorizontalGroup();
@@ -173,6 +164,94 @@ public class UserInterface {
         stage.addActor(widgetsTable);
     }
 
+    private void CreateSpritesAndCameraControlsTable(Skin skin) {
+        final TextField cameraZoomSpeedTextField = new TextField(String.valueOf(example.cameraZoomSpeed), skin);
+        cameraZoomSpeedTextField.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
+        cameraZoomSpeedTextField.setTextFieldListener(new TextField.TextFieldListener() {
+            @Override
+            public void keyTyped(TextField textField, char c) {
+                if (!IsNewLine(c)) {
+                    return;
+                }
+                String text = textField.getText();
+                example.cameraZoomSpeed = Integer.parseInt(text);
+            }
+        });
+        cameraZoomSpeedTextField.addListener(new FocusListener() {
+            @Override
+            public void keyboardFocusChanged (FocusEvent event, Actor actor, boolean focused) {
+                if (!focused) {
+                    cameraZoomSpeedTextField.setText(String.valueOf(example.cameraZoomSpeed));
+                }
+            }
+        });
+
+        final TextField cameraMovementSpeedTextField = new TextField(String.valueOf(example.cameraMovementSpeed), skin);
+        cameraMovementSpeedTextField.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
+        cameraMovementSpeedTextField.setTextFieldListener(new TextField.TextFieldListener() {
+            @Override
+            public void keyTyped(TextField textField, char c) {
+                if (!IsNewLine(c)) {
+                    return;
+                }
+                String text = textField.getText();
+                example.cameraMovementSpeed = Integer.parseInt(text);
+            }
+        });
+        cameraMovementSpeedTextField.addListener(new FocusListener() {
+            @Override
+            public void keyboardFocusChanged (FocusEvent event, Actor actor, boolean focused) {
+                if (!focused) {
+                    cameraMovementSpeedTextField.setText(String.valueOf(example.cameraMovementSpeed));
+                }
+            }
+        });
+
+        final TextField spritesMovementSpeedTextField = new TextField(String.valueOf(example.spritesMovementSpeed), skin);
+        spritesMovementSpeedTextField.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
+        spritesMovementSpeedTextField.setTextFieldListener(new TextField.TextFieldListener() {
+            @Override
+            public void keyTyped(TextField textField, char c) {
+                if (!IsNewLine(c)) {
+                    return;
+                }
+                String text = textField.getText();
+                example.spritesMovementSpeed = Integer.parseInt(text);
+            }
+        });
+        spritesMovementSpeedTextField.addListener(new FocusListener() {
+            @Override
+            public void keyboardFocusChanged (FocusEvent event, Actor actor, boolean focused) {
+                if (!focused) {
+                    spritesMovementSpeedTextField.setText(String.valueOf(example.spritesMovementSpeed));
+                }
+            }
+        });
+
+
+        HorizontalGroup cameraZoomSpeed = new HorizontalGroup();
+        cameraZoomSpeed.addActor(new Label("Camera Zoom Speed: ", skin));
+        cameraZoomSpeed.addActor(cameraZoomSpeedTextField);
+
+        HorizontalGroup cameraMovementSpeed = new HorizontalGroup();
+        cameraMovementSpeed.addActor(new Label("Camera Movement Speed: ", skin));
+        cameraMovementSpeed.addActor(cameraMovementSpeedTextField);
+
+        HorizontalGroup spritesMovementSpeed = new HorizontalGroup();
+        spritesMovementSpeed.addActor(new Label("Sprites Movement Speed: ", skin));
+        spritesMovementSpeed.addActor(spritesMovementSpeedTextField);
+
+        Table table = new Table(skin);
+        table.setFillParent(true);
+        table.add(cameraZoomSpeed).expand().bottom().right();
+        table.row();
+        table.add(cameraMovementSpeed).bottom().right();
+        table.row();
+        table.add(spritesMovementSpeed).bottom().right();
+
+        stage.addActor(table);
+    }
+
     private void CreateBindingsTable(Skin skin) {
         Table table = new Table(skin);
         table.setFillParent(true);
@@ -182,6 +261,16 @@ public class UserInterface {
         table.row();
         table.add("Sprites Movement: Arrow Keys").bottom().left();
         stage.addActor(table);
+    }
+
+    private boolean IsNewLine(char c) {
+        if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
+            if (c == 10) return true;
+        }
+        else if (Gdx.app.getType() == Application.ApplicationType.WebGL) {
+            if (c == 13) return true;
+        }
+        return false;
     }
 
     //
