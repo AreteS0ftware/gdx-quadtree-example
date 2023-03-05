@@ -92,7 +92,7 @@ public class UserInterface {
                 }
             }
         });
-        maxLevelTextField = new TextField(String.valueOf(example.root.GetMaxLevel()), skin);
+        maxLevelTextField = new TextField(String.valueOf(example.root.getMaxLevel()), skin);
         maxLevelTextField.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
         maxLevelTextField.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
@@ -102,19 +102,19 @@ public class UserInterface {
                 }
                 String text = textField.getText();
                 int newMaxLevel = Integer.parseInt(text);
-                example.root.SetMaxLevel(newMaxLevel);
+                example.root.setMaxLevel(newMaxLevel);
             }
         });
         maxLevelTextField.addListener(new FocusListener() {
             @Override
             public void keyboardFocusChanged (FocusEvent event, Actor actor, boolean focused) {
                 if (!focused) {
-                    int maxLevel = example.root.GetMaxLevel();
+                    int maxLevel = example.root.getMaxLevel();
                     maxLevelTextField.setText(String.valueOf(maxLevel));
                 }
             }
         });
-        maxItemsPerNodeTextField = new TextField(String.valueOf(example.root.GetMaxItemsPerNode()), skin);
+        maxItemsPerNodeTextField = new TextField(String.valueOf(example.root.getMaxItemsPerNode()), skin);
         maxItemsPerNodeTextField.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
         maxItemsPerNodeTextField.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
@@ -124,14 +124,14 @@ public class UserInterface {
                 }
                 String text = textField.getText();
                 int newMaxItemsPerNode = Integer.parseInt(text);
-                example.root.SetMaxItemsPerNode(newMaxItemsPerNode);
+                example.root.setMaxItemsPerNode(newMaxItemsPerNode);
             }
         });
         maxItemsPerNodeTextField.addListener(new FocusListener() {
             @Override
             public void keyboardFocusChanged (FocusEvent event, Actor actor, boolean focused) {
                 if (!focused) {
-                    int maxItemsPerNode = example.root.GetMaxItemsPerNode();
+                    int maxItemsPerNode = example.root.getMaxItemsPerNode();
                     maxItemsPerNodeTextField.setText(String.valueOf(maxItemsPerNode));
                 }
             }

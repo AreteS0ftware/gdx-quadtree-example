@@ -2,7 +2,6 @@ package it.aretesoftware.example;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -132,7 +131,7 @@ public class QuadtreeExample extends ApplicationAdapter {
 		shapes.begin(ShapeRenderer.ShapeType.Line);
 
 		if (!userInterface.IsQuadTreeDisabled()) {
-			root.Render(shapes);
+			root.render(shapes);
 			shapes.flush();
 		}
 
@@ -147,16 +146,16 @@ public class QuadtreeExample extends ApplicationAdapter {
 	}
 
 	private void DrawWithQuadTree() {
-		root.Clear();
+		root.clear();
 		for (SpriteEntity entity : sprites) {
-			QuadTreeItem<SpriteEntity> item = root.ObtainItem();
+			QuadTreeItem<SpriteEntity> item = root.obtainItem();
 			item.init(entity, entity.GetBounds());
-			root.Insert(item);
+			root.insert(item);
 		}
 
-		Array<QuadTreeItem<SpriteEntity>> list = root.Retrieve(cameraBounds);
+		Array<QuadTreeItem<SpriteEntity>> list = root.retrieve(cameraBounds);
 		for (QuadTreeItem<SpriteEntity> item : list) {
-			item.GetObject().Draw(batch);
+			item.getObject().Draw(batch);
 		}
 	}
 
